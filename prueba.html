@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Prueba Subida</title>
+</head>
+<body style="font-family: Arial; padding: 20px;">
+    <h2>Actualizar Alimento (PUT)</h2>
+    
+    <form id="foodForm">
+        <label>Título:</label><br>
+        <input type="text" id="title" name="title"><br><br>
+        
+        <label>Descripción:</label><br>
+        <input type="text" id="description" name="description"><br><br>
+
+        <label>tipo:</label><br>
+        <input type="text" id="type" name="type"><br><br>
+        
+        
+        <label>Archivo (foto):</label><br>
+        <input type="file" id="file" name="file"><br><br>
+        
+        <button type="submit">Enviar a Node.js</button>
+    </form>
+
+    <script>
+        const form = document.getElementById('foodForm');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch('http://localhost:4000/putFood/7', {
+                    method: 'PUT',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                // Validamos si la respuesta fue exitosa (200, 201, etc.)
+                if (response.ok) {
+                    console.log('Respuesta del servidor:', data);
+                    alert('¡Actualizado con éxito: ' + (data.message || '') + ']');
+                } else {
+                    // Si el servidor devolvió un 404, 400, 500, etc.
+                    console.warn('Aviso del servidor:', data);
+                    alert('Error del servidor: ' + (data.message || data.error || 'Desconocido'));
+                }
+                
+            } catch (error) {
+                console.error('Error de red o al parsear JSON:', error);
+                alert('Ocurrió un error al conectar con el servidor.');
+            }
+        });
+    </script>

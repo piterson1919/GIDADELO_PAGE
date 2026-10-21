@@ -1,0 +1,30 @@
+{
+  "name": "Landing page GIDAJELO",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon server/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Piterson Alvarado",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.5",
+    "express": "^5.2.1",
+    "morgan": "^1.12.1",
+    "multer": "^2.4.0",
+    "mysql2": "^3.24.5",
+    "nodemon": "^3.1.14"
+  },
+  "devDependencies": {
+    "standart": "^6.1.0",
+    "zod": "^4.6.7"
+  },
+  "slintConfig": {
+    "extends": "standart"
+  }
+}
