@@ -28,16 +28,21 @@ const userSchema = z.object({
         .regex(/[A-Z]/, { message: "La contraseña debe contener al menos una letra mayúscula." })
         .regex(/[0-9]/, { message: "La contraseña debe contener al menos un número." })
         .regex(/[^a-zA-Z0-9]/, { message: "La contraseña debe contener al menos un carácter especial (ej. @, #, $, !, etc.)." }),
+
+    id:z.coerce.number({ message: "La cédula debe ser un número" })
+        .int({ message: "La cédula debe de ser un número entero" })
+        .gte(10000000,{message:"la cedula debe ser mayor a 10 millones"})
+
 });
 
-const checkerUser = (user) => {
+export const checkerUser = (user) => {
 
     const data = userSchema.safeParse(user);
     const { password, confirmPassword } = user; 
 
     if (!data.success) {
 
-        const errors = data.error.errors.map(err => err.message);
+        const errors = data.error.issues.map(err => err.message);
 
         return {
             valid: false,

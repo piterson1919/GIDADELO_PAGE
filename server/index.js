@@ -11,9 +11,10 @@ const CURRENT_DIR = dirname(fileURLToPath(import.meta.url));
 const app = Express();
 
 app.use(cors());
-
+app.use(Express.json())
 app.use(Express.static(join(CURRENT_DIR,'./public/uploads')));
 
 app.use(food);
 app.use(user);
+
 app.listen(PORT);
