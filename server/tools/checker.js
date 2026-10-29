@@ -67,12 +67,14 @@ export const checkerUser = (user) => {
 export const Userauthentication = async(password, passwordVerifiqued) =>{
 
     const validPassword = await bcrypt.compare(password,passwordVerifiqued)
+    
     if (!validPassword) {
         return{
             message:"las contrasenas no coinsiden",
             valid: false
-        }
+        }    
     }
+
     return{
         message:"usuario correcto",
         valid: true

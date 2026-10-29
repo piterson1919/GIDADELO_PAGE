@@ -82,7 +82,7 @@ export const editFood = async (req, res) => {
         } 
 
         const query = await pool.query("UPDATE foods SET ? WHERE id = ?", [data, id]);
-        console.log(data);
+        
         res.status(200).json({
             message: "plato actualizado",
             data: data
