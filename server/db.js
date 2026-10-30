@@ -1,3 +1,5 @@
+//modulo de la base de datos
+
 import "dotenv/config"
 import {createPool} from 'mysql2/promise'
 

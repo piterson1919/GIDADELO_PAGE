@@ -18,6 +18,7 @@ router.post("/postFood",upload.single('file'),createFood)
 // editar comidas
 router.put("/putFood/:id",upload.single("file"),editFood)
 
+//router para eliminar una comida
 router.delete("/deletefood/:id",deleteFood);
 
 

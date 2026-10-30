@@ -1,6 +1,8 @@
 import { z } from 'zod';
 import bcrypt from 'bcrypt';
 
+
+//sistema para validar una password
 const userSchema = z.object({
     name: z.string()
         .min(3, { message: "El nombre debe tener un mínimo de 3 caracteres." })
@@ -36,6 +38,7 @@ const userSchema = z.object({
 
 });
 
+//sistema para verificar si la contrasena ingresada existe y es correcta
 export const checkerUser = (user) => {
 
     const data = userSchema.safeParse(user);
@@ -64,6 +67,8 @@ export const checkerUser = (user) => {
     };
 };
 
+
+//sistema para verificar si el usuario existe
 export const Userauthentication = async(password, passwordVerifiqued) =>{
 
     const validPassword = await bcrypt.compare(password,passwordVerifiqued)
@@ -80,6 +85,4 @@ export const Userauthentication = async(password, passwordVerifiqued) =>{
         valid: true
     }
     
-
-
 }

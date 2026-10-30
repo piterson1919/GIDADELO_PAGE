@@ -1,12 +1,18 @@
+//modulo para guardar archivos
+
 import { dir } from 'console';
 import multer from 'multer';
 import {join,dirname, extname} from 'path';
 import { fileURLToPath } from 'url';
 
-
+//direccion dinamica
 const CURRENT_DIR = dirname(fileURLToPath(import.meta.url));
+
+//extensiones permitidas
 const MYETYPES = ['image/png','image/jpeg','image/jpg','image/webp'];
 
+
+//sistema para guardar el archivo
 export const upload = multer({
 
         storage: multer.diskStorage({

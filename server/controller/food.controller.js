@@ -5,9 +5,13 @@ import { fileURLToPath } from 'url';
 
 const CURRENT_DIR = dirname(fileURLToPath(import.meta.url));
 
-// controlador para obtener una comida 
+//sistema para obtener una comida 
 export const getFood = async (req, res) => {
     try {
+        const user = req.session.user;
+        if (!user) {
+            return res.status(403).json({ message: "Acceso denegado." });
+        }
         const id = req.params.id;
         const [date] = await pool.query("SELECT * FROM foods WHERE id = ?", [id]);
         
@@ -21,15 +25,28 @@ export const getFood = async (req, res) => {
     }
 };
 
-// controlador para obtener todas las comidas 
-export const getFoods = async (req, res) => { 
-    const [dates] = await pool.query("SELECT * FROM foods");
-    res.status(200).json(dates);
+//sistema para obtener una lista de comida
+export const getFoods = async (req, res) => {
+    try {
+        const user = req.session.user;
+        if (!user) {
+            return res.status(403).json({ message: "Acceso denegado." });
+        } 
+        const [dates] = await pool.query("SELECT * FROM foods");
+        return res.status(200).json(dates);
+    } catch (error) {
+        return res.status(500).json({ error: "Hubo un error al obtener los alimentos: " + error.message });
+    }
 };
 
-// controlador para guardar una comida
+// sistema para crear una comida
 export const createFood = async (req, res) => {
     try {
+        const user = req.session.user;
+        if (!user) {
+            return res.status(403).json({ message: "Acceso denegado." });
+        }
+
         const { title, description, type } = req.body;
         const image = req.file["filename"];
 
@@ -41,11 +58,16 @@ export const createFood = async (req, res) => {
     }
 };
 
-// controlador para editar algo de la comida
+
+//sistema para editar una comida
 export const editFood = async (req, res) => {
     let newImage = null;
-
     try {
+        const user = req.session.user;
+        if (!user) {
+            return res.status(403).json({ message: "Acceso denegado." });
+        }
+        
         if (req.file) {
             newImage = join(CURRENT_DIR, "../public/uploads", req.file["filename"]);
         }
@@ -83,7 +105,7 @@ export const editFood = async (req, res) => {
 
         const query = await pool.query("UPDATE foods SET ? WHERE id = ?", [data, id]);
         
-        res.status(200).json({
+        return res.status(200).json({
             message: "plato actualizado",
             data: data
         });
@@ -97,13 +119,19 @@ export const editFood = async (req, res) => {
             }
         }
 
-        throw new Error("Hubo un error al actualizar el alimento: " + error.message);
+        return res.status(500).json({ error: "Hubo un error al actualizar el alimento: " + error.message });
     }
 };
 
-// controlador para eliminar una comida 
+
+//sistema para eliminar una comida
 export const deleteFood = async (req, res) => {
     try {
+        const user = req.session.user;
+        if (!user) {
+            return res.status(403).json({ message: "Acceso denegado." });
+        }
+
         const id = req.params.id;
 
         const [existFood] = await pool.query("SELECT * FROM foods WHERE id = ?", [id]);
